@@ -1,0 +1,165 @@
+call pathogen#infect()
+
+let mapleader=","
+
+set hidden     " hide buffers on opening new instead of warn
+set number     " show line numbers
+
+set autoindent " always indent automagically
+set copyindent " copy indentation
+set shiftwidth=4 " number of spaces for autoindent
+set shiftround " use multiple of shiftwidth when indenting
+
+set nowrap " do not wrap lines
+set tabstop=4 " tab is 4 spaces
+set backspace=indent,eol,start " backspace button options
+
+set nocompatible
+set laststatus=2
+
+" GUI
+set guioptions-=T  "remove toolbar
+set guioptions-=r  "remove right-hand scroll bar
+
+set directory=. " directory for swap files
+
+set wildmenu
+set wildmode=longest,list
+set showcmd
+
+set modeline
+set modelines=5
+
+""""""""""""""""
+" Key mappings "
+""""""""""""""""
+
+" no more arrows ;)
+inoremap  <Up>     <NOP>
+inoremap  <Down>   <NOP>
+inoremap  <Left>   <NOP>
+inoremap  <Right>  <NOP>
+noremap   <Up>     <NOP>
+noremap   <Down>   <NOP>
+noremap   <Left>   <NOP>
+noremap   <Right>  <NOP>
+
+" ESC to jj
+imap jj <Esc>
+
+" edit/reload .vimrc
+nmap <silent> <leader>ev :e /home/houen/.vimrc<RETURN>
+nmap <silent> <leader>rv :so /home/houen/.vimrc<RETURN>
+
+nmap <silent> <leader>ea :e /home/houen/.config/awesome/rc.lua<RETURN>
+"""""""""""
+" PLUGINS "
+"""""""""""
+
+" Powerline
+"""""""""""
+let g:Powerline_symbols = 'unicode'
+let g:Powerline_symbols = 'fancy'
+
+" NERD Tree
+"""""""""""
+nmap <silent> <c-n> :NERDTreeToggle<CR>
+
+" Tagbar 
+""""""""
+nmap <silent> <F8> :TagbarToggle<CR>
+
+" Tasklist
+""""""""""
+let g:tlTokenList = ['CITE', 'TODO', 'PROF','FIXME','ADD']
+nmap <silent> <F7> :TaskList<CR>
+
+" CtrlP
+"""""""
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlPMixed'
+let g:ctrlp_working_path_mode = 'ra'
+
+
+" TODO: lalall
+" Set paste psuje IMAPS w latex
+" set paste
+"set runtimepath=~/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/.vim/after
+
+set tags=./tags;/
+
+
+filetype plugin on
+set grepprg=grep\ -nH\ $*
+filetype indent on
+
+"set ofu=syntaxcomplete#Complete
+"autocmd FileType python set omnifunc=pythoncomplete#Complete
+
+if has('gui_running')
+  set gfn=Droid\ Sans\ Mono\ for\ Powerline\ 10
+  set background=dark
+  "colorscheme wombat
+  colorscheme camo_personalized
+else
+  "colorscheme wombatterm
+  colorscheme camo_personalized
+  "set background=dark
+endif
+
+" colorscheme wombatterm
+" ustawienie foldingu wierszy
+
+"tab navigation
+map <S-h> gT
+map <S-l> gt
+
+map <C-h> :bprev<CR> 
+map <C-l> :bnext<CR>
+
+" taby i linie
+set autoindent
+set smartindent
+set expandtab
+set tabstop=2
+set shiftwidth=2
+set textwidth=79
+
+set ignorecase 
+set smartcase
+set incsearch
+set ai
+set si
+
+" włączenie (zp) i wyłączenie (zP) korekty pisowni dla j.polskiego
+map zp :setlocal spell spelllang=pl<CR>
+map ze :setlocal spell spelllang=en<CR>
+map zus :setlocal spell spelllang=en_us<CR>
+map zn :setlocal nospell<CR>
+
+if $TERM =~ '^screen-256color'
+    map <Esc>OH <Home>
+    map! <Esc>OH <Home>
+    map <Esc>OF <End>
+    map! <Esc>OF <End>
+endif
+
+" JSON
+"au BufRead,BufNewFile *.json set filetype=json
+"augroup json_autocmd
+"  autocmd!
+"  autocmd FileType json set autoindent
+"  autocmd FileType json set formatoptions=tcq2l
+"  autocmd FileType json set textwidth=78 shiftwidth=2
+"  autocmd FileType json set softtabstop=2 tabstop=8
+"  autocmd FileType json set expandtab
+"  autocmd FileType json set foldmethod=syntax
+"augroup END 
+
+syntax on
+set noeb vb t_vb=
+au GUIEnter * set vb t_vb=
+set clipboard=unnamedplus
+hi FoldColumn guifg=red guibg=black
+set foldmethod=syntax
+au BufRead * normal zR

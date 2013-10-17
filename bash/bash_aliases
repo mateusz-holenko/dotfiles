@@ -1,0 +1,21 @@
+# GIT aliases
+alias gs='git status'
+alias gl='git log'
+alias gd='git diff'
+alias gc='git clone'
+alias ggc='/home/houen/Skrypty/githubClone.sh'
+alias gpl='git pull'
+alias gph='git push'
+
+alias gf='/home/houen/Skrypty/grepFiles.sh'
+alias ce='cd /home/houen/AntMicro/emulator'
+alias cl='cd /home/houen/Sources/linux-2.6.37-changed'
+alias ca='cd /home/houen/Sources/linux-2.6.37-changed/arch/arm/mach-at91'
+alias cs='cd /home/houen/AntMicro/AntShell'
+
+alias f='/home/houen/Skrypty/findInFiles.sh'
+alias ff='/home/houen/Skrypty/findInFiles.sh f'
+alias fd='/home/houen/Skrypty/findInFiles.sh d'
+
+alias cdd='cd ..'
+
