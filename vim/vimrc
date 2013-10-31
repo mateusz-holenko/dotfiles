@@ -34,6 +34,16 @@ set modelines=5
 " Key mappings "
 """"""""""""""""
 
+" tab navigation
+map <S-h> gT
+map <S-l> gt
+
+" windows and buffers navigation
+map <C-h> :bprev<CR> 
+map <C-l> :bnext<CR>
+map <C-k> :winc W<CR>
+map <C-j> :winc w<CR>
+
 " no more arrows ;)
 inoremap  <Up>     <NOP>
 inoremap  <Down>   <NOP>
@@ -102,21 +112,12 @@ if has('gui_running')
   "colorscheme wombat
   colorscheme camo_personalized
 else
-  "colorscheme wombatterm
-  colorscheme camo_personalized
-  "set background=dark
+  set t_Co=256
+  colorscheme wombat256
 endif
 
 " colorscheme wombatterm
 " ustawienie foldingu wierszy
-
-"tab navigation
-map <S-h> gT
-map <S-l> gt
-
-map <C-h> :bprev<CR> 
-map <C-l> :bnext<CR>
-
 " taby i linie
 set autoindent
 set smartindent
