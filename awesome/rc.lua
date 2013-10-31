@@ -10,6 +10,8 @@ local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
+require("vicious")
+--require("blingbling")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -254,7 +256,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
     awful.key({ modkey, "Control" }, "Return", function () awful.util.spawn(terminal .. " --title=\"Terminal \"") end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
-    awful.key({ modkey, "Shift"   }, "q", awesome.quit),
+    awful.key({ modkey, "Control" }, "q", awesome.quit),
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end),
     awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end),
@@ -298,12 +300,26 @@ globalkeys = awful.util.table.join(
               end),
 
     awful.key({ modkey, "Shift" }, "m", function () awful.util.spawn("monodevelop") end),
-    awful.key({ modkey, "Shift" }, "v", function () awful.util.spawn("gvim")        end),
+    awful.key({ modkey, "Shift" }, "v", function () awful.util.spawn("gvim -c \"cd /home/houen/AntMicro/emulator\"")        end),
     awful.key({ modkey, "Shift" }, "c", function () awful.util.spawn("gcalctool")   end),
     awful.key({ modkey, "Shift" }, "n", function () awful.util.spawn(terminal .. " --title=\"VIfM\" -e vifm")        end),
-    awful.key({ modkey, "Shift" }, "f", function () awful.util.spawn("firefox")     end)
-)
+    awful.key({ modkey, "Shift" }, "f", function () awful.util.spawn("firefox")     end),
 
+    awful.key({ modkey }, "F1", function()
+      naughty.notify({ 
+        preset = naughty.config.presets.normal,
+        title = "Help",
+        text = "\n<u>Applications (S-M-x):</u>\n" ..
+               "<span font_desc='monospace'>   c</span>: calculator\n" ..
+               "<span font_desc='monospace'>   f</span>: firefox\n" ..
+               "<span font_desc='monospace'>   m</span>: monodevelop\n" ..
+               "<span font_desc='monospace'>   n</span>: vifm\n" ..
+               "<span font_desc='monospace'>   v</span>: gvim\n" ..
+               "\n<u>Environment:</u>\n" ..
+               "<span font_desc='monospace'> M-Ret</span>: terminal"
+      })
+    end)
+)
 
 clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
@@ -380,7 +396,13 @@ awful.rules.rules = {
                      focus = awful.client.focus.filter,
                      keys = clientkeys,
                      size_hints_honor = false,
-                     buttons = clientbuttons } },
+                     buttons = clientbuttons },
+      callback = function (c)
+        if c.name == "Emul8" then
+          awful.client.movetotag(tags[2][2], c)
+          awful.tag.viewonly(tags[2][2])
+        end
+      end },
     { rule = { class = "MPlayer" },
       properties = { floating = true } },
     { rule = { class = "pinentry" },
@@ -393,17 +415,16 @@ awful.rules.rules = {
       properties = { floating = true } },
     { rule = { class = "Iceweasel" },
       properties = { tag = tags[2][3], switchtotag = true } },
-    { rule = { class = "Roxterm" },
+    { rule = { class = "Gnome-terminal" },
       -- properties = { tag = tags[1][1], switchtotag = true } },
       callback = function (c)
-
         if os.execute("~/Skrypty/pidCheck.sh " .. c.pid .. " `pidof monodevelop`") == 0 then
           awful.client.movetotag(tags[2][2], c)
           awful.tag.viewonly(tags[2][2])
         elseif c.name == "Terminal" then
           awful.client.movetotag(tags[1][1], c)
           awful.tag.viewonly(tags[1][1])
-        elseif c.name ~= "Terminal " then
+        elseif c.name ~= "Terminal " and c.name ~= "VIfM" then
           awful.client.movetotag(tags[2][2], c)
           awful.tag.viewonly(tags[2][2])
         end
@@ -413,10 +434,10 @@ awful.rules.rules = {
     { rule = { class = "Gvim" },
       properties = { tag = tags[1][4], switchtotag = true } },
     { rule = { class = "Zathura" },
-      properties = { tag = tags[2][4], switchtotag = true } }
-    -- Set Firefox to always map on tags number 2 of screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { tag = tags[1][2] } },
+      properties = { tag = tags[2][4], switchtotag = true } },
+    { rule = { type = "dialog" },
+      properties = { floating = true, border_width = 0 },
+    }
 }
 
 -- }}}
