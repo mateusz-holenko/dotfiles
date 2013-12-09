@@ -11,7 +11,8 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 require("vicious")
---require("blingbling")
+local blingbling = require("blingbling")
+local scratch = require("scratch")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -81,15 +82,10 @@ end
 -- }}}
 
 -- {{{ Tags
---tags = assert(loadfile(awful.util.getdir("config") .. "/tags.lua"))(awful)
-
---    naughty.notify({ preset = naughty.config.presets.critical,
---                     title = "Tags",
---                     text = tags[1] })
 tags = {}
     -- Each screen has its own tag table.
-    tags[1] = awful.tag({ "sys", "dev", "web", "vim", "misc" }, 1, layouts[1])
-    tags[2] = awful.tag({ "term", "dev", "web", "doc", "misc" }, 2, layouts[1])
+    tags[1] = awful.tag({ "sys", "dev", "web", "vim", "misc" }, 1, { layouts[10], layouts[12], layouts[1], layouts[4], layouts[1]  })
+    tags[2] = awful.tag({ "term", "dev", "web", "doc", "misc" }, 2, { layouts[10], layouts[6], layouts[1], layouts[1], layouts[1] })
 -- }}}
 
 -- {{{ Menu
@@ -318,7 +314,11 @@ globalkeys = awful.util.table.join(
                "\n<u>Environment:</u>\n" ..
                "<span font_desc='monospace'> M-Ret</span>: terminal"
       })
-    end)
+    end),
+
+    awful.key({ }, "F11", function() scratch.drop(terminal .. " -e vifm", "top", "center", 0.85, 0.5) end),
+    awful.key({ }, "F12", function() scratch.drop(terminal .. " --title=\"Terminal \"", "top", "center", 0.85, 0.5) end)
+
 )
 
 clientkeys = awful.util.table.join(
@@ -411,10 +411,10 @@ awful.rules.rules = {
       properties = { floating = true } },
     { rule = { class = "Conky" },
       properties = { border_width = 0 } },
-    { rule = { class = "Download" },
-      properties = { floating = true } },
     { rule = { class = "Iceweasel" },
       properties = { tag = tags[2][3], switchtotag = true } },
+    { rule = { class = "Download", "Iceweasel" },
+      properties = { floating = true } },
     { rule = { class = "Gnome-terminal" },
       -- properties = { tag = tags[1][1], switchtotag = true } },
       callback = function (c)
@@ -428,6 +428,8 @@ awful.rules.rules = {
           awful.client.movetotag(tags[2][2], c)
           awful.tag.viewonly(tags[2][2])
         end
+
+        awful.client.setslave(c)
       end },
     { rule = { class = "MonoDevelop" },
       properties = { tag = tags[1][2], switchtotag = true, floating = false } },
