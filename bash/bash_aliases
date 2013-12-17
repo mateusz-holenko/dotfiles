@@ -19,3 +19,5 @@ alias fd='/home/houen/Skrypty/findInFiles.sh d'
 
 alias cdd='cd ..'
 
+alias agi='sudo apt-get install'
+alias acs='apt-cache search'
