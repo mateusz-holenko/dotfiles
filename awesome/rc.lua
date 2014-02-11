@@ -44,7 +44,7 @@ end
 beautiful.init(awful.util.getdir("config") .. "/theme/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "gnome-terminal"
+terminal = "roxterm"
 editor = os.getenv("EDITOR") or "vim" or "nano"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -84,8 +84,10 @@ end
 -- {{{ Tags
 tags = {}
     -- Each screen has its own tag table.
-    tags[1] = awful.tag({ "sys", "dev", "web", "vim", "misc" }, 1, { layouts[10], layouts[12], layouts[1], layouts[4], layouts[1]  })
-    tags[2] = awful.tag({ "term", "dev", "web", "doc", "misc" }, 2, { layouts[10], layouts[6], layouts[1], layouts[1], layouts[1] })
+    tags[1] = awful.tag({ "sys", "dev", "web", "vim", "misc" }, 1, { layouts[10], layouts[12], layouts[4], layouts[4], layouts[4]  })
+    if screen.count() > 1 then
+      tags[2] = awful.tag({ "term", "dev", "web", "doc", "misc" }, 2, { layouts[10], layouts[6], layouts[4], layouts[4], layouts[4] })
+    end
 -- }}}
 
 -- {{{ Menu
@@ -250,7 +252,7 @@ globalkeys = awful.util.table.join(
 
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
-    awful.key({ modkey, "Control" }, "Return", function () awful.util.spawn(terminal .. " --title=\"Terminal \"") end),
+    awful.key({ modkey, "Shift"   }, "Return", function () awful.util.spawn(terminal .. " --title=\"Terminal \"") end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Control" }, "q", awesome.quit),
 
@@ -304,6 +306,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "F1", function()
       naughty.notify({ 
         preset = naughty.config.presets.normal,
+        timeout = 10,
         title = "Help",
         text = "\n<u>Applications (S-M-x):</u>\n" ..
                "<span font_desc='monospace'>   c</span>: calculator\n" ..
@@ -312,13 +315,57 @@ globalkeys = awful.util.table.join(
                "<span font_desc='monospace'>   n</span>: vifm\n" ..
                "<span font_desc='monospace'>   v</span>: gvim\n" ..
                "\n<u>Environment:</u>\n" ..
-               "<span font_desc='monospace'> M-Ret</span>: terminal"
+               "<span font_desc='monospace'> M-Ret</span>: terminal\n" ..
+               "<span font_desc='monospace'>S-M-j</span>: switch client with next client\n" ..
+               "<span font_desc='monospace'>M-o</span>: send client to next screen\n" ..
+               "\nMaster window width factor:\n" ..
+               "<span font_desc='monospace'>   M-h</span>: decrease by 5%\n" ..
+               "<span font_desc='monospace'>   M-l</span>: increase by 5%\n" ..
+               "\nMaster windows:\n" ..
+               "<span font_desc='monospace'>   S-M-h</span>: increase by 1\n" ..
+               "<span font_desc='monospace'>   S-M-l</span>: decrease by 1\n" ..
+               "\nColumns for non-master windows:\n" ..
+               "<span font_desc='monospace'>   C-M-h</span>: increase by 1\n" ..
+               "<span font_desc='monospace'>   C-M-l</span>: decrease by 1"
+
+--Mod4 + space
+--
+--    Switch to next layout.
+--Mod4 + Shift + space
+--
+--    Switch to previous layout.
+--Mod4 + Control + space
+--
+--    Toggle client floating status.
+--Mod4 + Control + Return
+--
+--    Swap focused client with master.
+--Mod4 + Control + 1-9
+--
+--    Toggle tag view.
+--Mod4 + Shift + 1-9
+--
+--    Tag client with tag.
+--Mod4 + Shift + Control + 1-9
+--
+--    Toggle tag on client.
       })
     end),
 
-    awful.key({ }, "F11", function() scratch.drop(terminal .. " -e vifm", "top", "center", 0.85, 0.5) end),
-    awful.key({ }, "F12", function() scratch.drop(terminal .. " --title=\"Terminal \"", "top", "center", 0.85, 0.5) end)
-
+    awful.key({ modkey }, "F11", function() scratch.drop(terminal .. " -e vifm", "top", "center", 0.85, 0.5) end),
+    awful.key({ modkey }, "F12", function() scratch.drop(terminal .. " --title=\"Terminal \"", "top", "center", 0.85, 0.5) end),
+    awful.key({ modkey }, "F5" , function() 
+      enable_rules() 
+      naughty.notify({ 
+        title = "Windows rules",
+        text = "enabled" })
+    end),
+    awful.key({ modkey }, "F6" , function() 
+      disable_rules() 
+      naughty.notify({ 
+        title = "Windows rules",
+        text = "disabled" })
+    end)
 )
 
 clientkeys = awful.util.table.join(
@@ -388,59 +435,75 @@ root.keys(globalkeys)
 -- }}}
 
 -- {{{ Rules
-awful.rules.rules = {
-    -- All clients will match this rule.
+
+function disable_rules()
+  awful.rules.rules ={
     { rule = { },
       properties = { border_width = beautiful.border_width,
-                     border_color = beautiful.border_normal,
-                     focus = awful.client.focus.filter,
-                     keys = clientkeys,
-                     size_hints_honor = false,
-                     buttons = clientbuttons },
-      callback = function (c)
-        if c.name == "Emul8" then
-          awful.client.movetotag(tags[2][2], c)
-          awful.tag.viewonly(tags[2][2])
-        end
-      end },
-    { rule = { class = "MPlayer" },
-      properties = { floating = true } },
-    { rule = { class = "pinentry" },
-      properties = { floating = true } },
-    { rule = { class = "gimp" },
-      properties = { floating = true } },
-    { rule = { class = "Conky" },
-      properties = { border_width = 0 } },
-    { rule = { class = "Iceweasel" },
-      properties = { tag = tags[2][3], switchtotag = true } },
-    { rule = { class = "Download", "Iceweasel" },
-      properties = { floating = true } },
-    { rule = { class = "Gnome-terminal" },
-      -- properties = { tag = tags[1][1], switchtotag = true } },
-      callback = function (c)
-        if os.execute("~/Skrypty/pidCheck.sh " .. c.pid .. " `pidof monodevelop`") == 0 then
-          awful.client.movetotag(tags[2][2], c)
-          awful.tag.viewonly(tags[2][2])
-        elseif c.name == "Terminal" then
-          awful.client.movetotag(tags[1][1], c)
-          awful.tag.viewonly(tags[1][1])
-        elseif c.name ~= "Terminal " and c.name ~= "VIfM" then
-          awful.client.movetotag(tags[2][2], c)
-          awful.tag.viewonly(tags[2][2])
-        end
+      border_color = beautiful.border_normal,
+      focus = awful.client.focus.filter,
+      keys = clientkeys,
+      size_hints_honor = false,
+      buttons = clientbuttons } }
+  } 
+end
 
-        awful.client.setslave(c)
-      end },
-    { rule = { class = "MonoDevelop" },
-      properties = { tag = tags[1][2], switchtotag = true, floating = false } },
-    { rule = { class = "Gvim" },
-      properties = { tag = tags[1][4], switchtotag = true } },
-    { rule = { class = "Zathura" },
-      properties = { tag = tags[2][4], switchtotag = true } },
-    { rule = { type = "dialog" },
-      properties = { floating = true, border_width = 0 },
-    }
-}
+function enable_rules()
+  awful.rules.rules = {
+      -- All clients will match this rule.
+      { rule = { },
+        properties = { border_width = beautiful.border_width,
+                      border_color = beautiful.border_normal,
+                      focus = awful.client.focus.filter,
+                      keys = clientkeys,
+                      size_hints_honor = false,
+                      buttons = clientbuttons },
+        callback = function (c)
+          if c.name == "Emul8" then
+            awful.client.movetotag(tags[screen.count()][2], c)
+            awful.tag.viewonly(tags[screen.count()][2])
+          end
+        end },
+      { rule = { class = "MPlayer" },
+        properties = { floating = true } },
+      { rule = { class = "pinentry" },
+        properties = { floating = true } },
+      { rule = { class = "gimp" },
+        properties = { floating = true } },
+      { rule = { class = "Conky" },
+        properties = { border_width = 0 } },
+      { rule = { class = "Iceweasel" },
+        properties = { tag = tags[screen.count()][3], switchtotag = true } },
+      { rule = { class = "Download", "Iceweasel" },
+        properties = { floating = true } },
+      { rule = { class = "Gnome-terminal" },
+        -- properties = { tag = tags[1][1], switchtotag = true } },
+        callback = function (c)
+          if os.execute("~/Skrypty/pidCheck.sh " .. c.pid .. " `pidof monodevelop`") == 0 then
+            awful.client.movetotag(tags[screen.count()][2], c)
+            awful.tag.viewonly(tags[screen.count()][2])
+          elseif c.name == "Terminal" then
+            awful.client.movetotag(tags[1][1], c)
+            awful.tag.viewonly(tags[1][1])
+          elseif c.name ~= "Terminal " and c.name ~= "VIfM" then
+            awful.client.movetotag(tags[screen.count()][2], c)
+            awful.tag.viewonly(tags[screen.count()][2])
+          end
+
+          awful.client.setslave(c)
+        end },
+      { rule = { class = "MonoDevelop" },
+        properties = { tag = tags[1][2], switchtotag = true, floating = false } },
+      { rule = { class = "Gvim" },
+        properties = { tag = tags[1][4], switchtotag = true } },
+      { rule = { class = "Zathura" },
+        properties = { tag = tags[screen.count()][4], switchtotag = true } },
+      { rule = { type = "dialog" },
+        properties = { floating = true, border_width = 0 },
+      }
+  }
+end
+enable_rules()
 
 -- }}}
 

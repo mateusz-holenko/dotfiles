@@ -88,7 +88,7 @@ fi
 alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -CF'
-alias cp='cp --reflink'
+alias cp='cp --reflink=auto'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -115,5 +115,9 @@ function _update_ps1() {
   export PS1="$(~/powerline-shell.py $?)"
 }
 
-export PROMPT_COMMAND="_update_ps1"
+#export PROMPT_COMMAND="_update_ps1"
 
+xmodmap -e "remove Lock = Caps_Lock"
+xmodmap -e "keysym Escape = Caps_Lock"
+xmodmap -e "keysym Caps_Lock = Escape"
+xmodmap -e "add Lock = Caps_Lock"

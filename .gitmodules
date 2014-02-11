@@ -21,13 +21,16 @@
 	url = https://github.com/scrooloose/nerdtree.git
 [submodule "awesome/blingbling"]
 	path = awesome/blingbling
-	url = git://github.com/cedlemo/blingbling.git
+	url = https://github.com/cedlemo/blingbling.git
 [submodule "awesome/aconf"]
 	path = awesome/aconf
 	url = http://git.sysphere.org/awesome-configs/
 [submodule "vim/bundle/tagbar"]
 	path = vim/bundle/tagbar
-	url = https://github.com/majutsushi/tagbar.git
+	url = https://github.com/majutsushi/tagar
 [submodule "vim/bundle/vim-easymotion"]
 	path = vim/bundle/vim-easymotion
 	url = https://github.com/Lokaltog/vim-easymotion
+[submodule "awesome/vicious"]
+	path = awesome/vicious
+	url = http://git.sysphere.org/vicious

@@ -73,7 +73,8 @@ theme.titlebar_maximized_button_focus_inactive  = "/opt/awesome/share/awesome/th
 theme.titlebar_maximized_button_normal_active = "/opt/awesome/share/awesome/themes/default/titlebar/maximized_normal_active.png"
 theme.titlebar_maximized_button_focus_active  = "/opt/awesome/share/awesome/themes/default/titlebar/maximized_focus_active.png"
 
-theme.wallpaper = "/usr/share/images/desktop-base/joy-wallpaper_1920x1080.svg"
+--theme.wallpaper = "/usr/share/images/desktop-base/joy-wallpaper_1920x1080.svg"
+theme.wallpaper = "/home/houen/images/road.jpg"
 
 -- You can use your own layout icons like this:
 theme.layout_fairh = "/opt/awesome/share/awesome/themes/default/layouts/fairhw.png"

@@ -7,7 +7,7 @@ alias ggc='/home/houen/Skrypty/githubClone.sh'
 alias gpl='git pull'
 alias gph='git push'
 
-alias gf='/home/houen/Skrypty/grepFiles.sh'
+alias gf='/home/houen/Skrypty/grep_files.sh'
 alias ce='cd /home/houen/AntMicro/emulator'
 alias cl='cd /home/houen/Sources/linux-2.6.37-changed'
 alias ca='cd /home/houen/Sources/linux-2.6.37-changed/arch/arm/mach-at91'

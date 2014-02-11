@@ -107,7 +107,7 @@ filetype indent on
 "autocmd FileType python set omnifunc=pythoncomplete#Complete
 
 if has('gui_running')
-  set gfn=Droid\ Sans\ Mono\ for\ Powerline\ 10
+  "set gfn=Droid\ Sans\ Mono\ for\ Powerline\ 10
   set background=dark
   "colorscheme wombat
   colorscheme camo_personalized
