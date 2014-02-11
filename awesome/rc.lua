@@ -316,9 +316,20 @@ globalkeys = awful.util.table.join(
       })
     end),
 
-    awful.key({ }, "F11", function() scratch.drop(terminal .. " -e vifm", "top", "center", 0.85, 0.5) end),
-    awful.key({ }, "F12", function() scratch.drop(terminal .. " --title=\"Terminal \"", "top", "center", 0.85, 0.5) end)
-
+    awful.key({ modkey }, "F11", function() scratch.drop(terminal .. " -e vifm", "top", "center", 0.85, 0.5) end),
+    awful.key({ modkey }, "F12", function() scratch.drop(terminal .. " --title=\"Terminal \"", "top", "center", 0.85, 0.5) end),
+    awful.key({ modkey }, "F5" , function() 
+      enable_rules() 
+      naughty.notify({ 
+        title = "Windows rules",
+        text = "enabled" })
+    end),
+    awful.key({ modkey }, "F6" , function() 
+      disable_rules() 
+      naughty.notify({ 
+        title = "Windows rules",
+        text = "disabled" })
+    end)
 )
 
 clientkeys = awful.util.table.join(
@@ -388,59 +399,75 @@ root.keys(globalkeys)
 -- }}}
 
 -- {{{ Rules
-awful.rules.rules = {
-    -- All clients will match this rule.
-    { rule = { },
-      properties = { border_width = beautiful.border_width,
-                     border_color = beautiful.border_normal,
-                     focus = awful.client.focus.filter,
-                     keys = clientkeys,
-                     size_hints_honor = false,
-                     buttons = clientbuttons },
-      callback = function (c)
-        if c.name == "Emul8" then
-          awful.client.movetotag(tags[2][2], c)
-          awful.tag.viewonly(tags[2][2])
-        end
-      end },
-    { rule = { class = "MPlayer" },
-      properties = { floating = true } },
-    { rule = { class = "pinentry" },
-      properties = { floating = true } },
-    { rule = { class = "gimp" },
-      properties = { floating = true } },
-    { rule = { class = "Conky" },
-      properties = { border_width = 0 } },
-    { rule = { class = "Iceweasel" },
-      properties = { tag = tags[2][3], switchtotag = true } },
-    { rule = { class = "Download", "Iceweasel" },
-      properties = { floating = true } },
-    { rule = { class = "Gnome-terminal" },
-      -- properties = { tag = tags[1][1], switchtotag = true } },
-      callback = function (c)
-        if os.execute("~/Skrypty/pidCheck.sh " .. c.pid .. " `pidof monodevelop`") == 0 then
-          awful.client.movetotag(tags[2][2], c)
-          awful.tag.viewonly(tags[2][2])
-        elseif c.name == "Terminal" then
-          awful.client.movetotag(tags[1][1], c)
-          awful.tag.viewonly(tags[1][1])
-        elseif c.name ~= "Terminal " and c.name ~= "VIfM" then
-          awful.client.movetotag(tags[2][2], c)
-          awful.tag.viewonly(tags[2][2])
-        end
 
-        awful.client.setslave(c)
-      end },
-    { rule = { class = "MonoDevelop" },
-      properties = { tag = tags[1][2], switchtotag = true, floating = false } },
-    { rule = { class = "Gvim" },
-      properties = { tag = tags[1][4], switchtotag = true } },
-    { rule = { class = "Zathura" },
-      properties = { tag = tags[2][4], switchtotag = true } },
-    { rule = { type = "dialog" },
-      properties = { floating = true, border_width = 0 },
-    }
-}
+function disable_rules()
+  awful.rules.rules ={
+    { rule = { },
+    properties = { border_width = beautiful.border_width,
+      border_color = beautiful.border_normal,
+      focus = awful.client.focus.filter,
+      keys = clientkeys,
+      size_hints_honor = false,
+      buttons = clientbuttons } }
+  } 
+end
+
+function enable_rules()
+  awful.rules.rules = {
+      -- All clients will match this rule.
+      { rule = { },
+        properties = { border_width = beautiful.border_width,
+                      border_color = beautiful.border_normal,
+                      focus = awful.client.focus.filter,
+                      keys = clientkeys,
+                      size_hints_honor = false,
+                      buttons = clientbuttons },
+        callback = function (c)
+          if c.name == "Emul8" then
+            awful.client.movetotag(tags[2][2], c)
+            awful.tag.viewonly(tags[2][2])
+          end
+        end },
+      { rule = { class = "MPlayer" },
+        properties = { floating = true } },
+      { rule = { class = "pinentry" },
+        properties = { floating = true } },
+      { rule = { class = "gimp" },
+        properties = { floating = true } },
+      { rule = { class = "Conky" },
+        properties = { border_width = 0 } },
+      { rule = { class = "Iceweasel" },
+        properties = { tag = tags[2][3], switchtotag = true } },
+      { rule = { class = "Download", "Iceweasel" },
+        properties = { floating = true } },
+      { rule = { class = "Gnome-terminal" },
+        -- properties = { tag = tags[1][1], switchtotag = true } },
+        callback = function (c)
+          if os.execute("~/Skrypty/pidCheck.sh " .. c.pid .. " `pidof monodevelop`") == 0 then
+            awful.client.movetotag(tags[2][2], c)
+            awful.tag.viewonly(tags[2][2])
+          elseif c.name == "Terminal" then
+            awful.client.movetotag(tags[1][1], c)
+            awful.tag.viewonly(tags[1][1])
+          elseif c.name ~= "Terminal " and c.name ~= "VIfM" then
+            awful.client.movetotag(tags[2][2], c)
+            awful.tag.viewonly(tags[2][2])
+          end
+
+          awful.client.setslave(c)
+        end },
+      { rule = { class = "MonoDevelop" },
+        properties = { tag = tags[1][2], switchtotag = true, floating = false } },
+      { rule = { class = "Gvim" },
+        properties = { tag = tags[1][4], switchtotag = true } },
+      { rule = { class = "Zathura" },
+        properties = { tag = tags[2][4], switchtotag = true } },
+      { rule = { type = "dialog" },
+        properties = { floating = true, border_width = 0 },
+      }
+  }
+end
+enable_rules()
 
 -- }}}
 
