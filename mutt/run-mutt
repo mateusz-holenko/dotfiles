@@ -2,14 +2,15 @@
 set -e
 set -u
 
+rm sedargs || true
 mkfifo -m 0600 sedargs
-mkfifo -m 0600 muttrc
 
 passwd=`gpg --decrypt ~/.mutt/passwd`
 
+# Functions
 provide_sedargs() 
 {
-  for line in "$passwd"
+  for line in $passwd
   do
     prefix=`echo $line | cut -d'|' -f1`
     uname=`echo $line | cut -d'|' -f2`
@@ -25,14 +26,25 @@ provide_sedargs()
   unset line
 }
 
-provide_muttrc()
+provide_config()
 {
-  cat muttrc-template | sed -f sedargs > muttrc
+  cat "$1" | sed -f sedargs > "${1%-template}"
 }
 
 provide_sedargs &
-provide_muttrc &
+
+templates=`find . -type f -name "*-template"`
+for t in $templates
+do
+  rm ${t%-template} || true
+  mkfifo -m 0600 "${t%-template}"
+  provide_config "$t" &
+done
+
 mutt
 
 rm sedargs
-rm muttrc
+for t in $templates
+do
+  rm "${t%-template}" || true
+done

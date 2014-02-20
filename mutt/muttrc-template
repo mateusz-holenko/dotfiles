@@ -13,6 +13,8 @@ set imap_keepalive = 300
 set mail_check = 120
 
 set editor = "vim +9"
+## Gmail settings
+source ~/.mutt/gmail/config
 source ~/.mutt/mutt-colors-solarized/mutt-colors-solarized-dark-256.muttrc 
 
 set pager_context = 1
