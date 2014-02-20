@@ -1,0 +1,26 @@
+set imap_user = "###antmicro-uname###"
+set imap_pass = "###antmicro-pass###"
+set folder    = "imap://mail.citynetwork.se:143/"
+set spoolfile = +INBOX
+set ssl_starttls = yes
+mailboxes     = +INBOX
+
+set header_cache = ~/.mutt/cache/headers
+set message_cachedir = ~/.mutt/cache/bodies
+set certificate_file = ~/.mutt/certs
+
+set imap_keepalive = 300
+set mail_check = 120
+
+set editor = "vim +9"
+source ~/.mutt/mutt-colors-solarized/mutt-colors-solarized-dark-256.muttrc 
+
+set pager_context = 1
+set pager_index_lines = 6
+set pager_stop = yes
+set edit_headers
+
+bind pager k previous-line
+bind pager j next-line
+bind pager gg top
+bind pager G bottom

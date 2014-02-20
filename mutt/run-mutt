@@ -1,0 +1,38 @@
+#!/bin/bash
+set -e
+set -u
+
+mkfifo -m 0600 sedargs
+mkfifo -m 0600 muttrc
+
+passwd=`gpg --decrypt ~/.mutt/passwd`
+
+provide_sedargs() 
+{
+  for line in "$passwd"
+  do
+    prefix=`echo $line | cut -d'|' -f1`
+    uname=`echo $line | cut -d'|' -f2`
+    pass=`echo $line | cut -d'|' -f3-`
+
+    echo 's/#\{3\}'"$prefix"'-uname#\{3\}/'"$uname"'/' >> sedargs
+    echo 's/#\{3\}'"$prefix"'-pass#\{3\}/'"$pass"'/' >> sedargs
+  done
+
+  unset prefix
+  unset uname
+  unset pass
+  unset line
+}
+
+provide_muttrc()
+{
+  cat muttrc-template | sed -f sedargs > muttrc
+}
+
+provide_sedargs &
+provide_muttrc &
+mutt
+
+rm sedargs
+rm muttrc
