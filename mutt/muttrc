@@ -1,0 +1,31 @@
+set editor = "vim +9"
+#source ~/.mutt/mutt-colors-solarized/mutt-colors-solarized-dark-256.muttrc 
+
+## Gmail settings
+source ~/.mutt/gmail/config
+folder-hook 'gmail.com' 'source ~/.mutt/gmail/config'
+
+## Antmicro settings
+#source ~/.mutt/antmicro/config
+folder-hook 'citynetwork.se' 'source ~/.mutt/antmicro/config'
+
+## CS settings
+folder-hook 'outlook.com' 'source ~/.mutt/cs/config'
+
+
+set pager_context = 1
+set pager_index_lines = 6
+set pager_stop = yes
+set edit_headers
+
+bind pager k previous-line
+bind pager j next-line
+bind pager gg top
+bind pager G bottom
+
+bind index ^S imap-fetch-mail
+
+macro index <f2> '<sync-mailbox><enter-command>source ~/.mutt/gmail/config<enter><change-folder>!<enter>'
+macro index <f3> '<sync-mailbox><enter-command>source ~/.mutt/antmicro/config<enter><change-folder>!<enter>'
+macro index <f4> '<sync-mailbox><enter-command>source ~/.mutt/cs/config<enter><change-folder>!<enter>'
+macro index ,c   '<change-folder>?<change-dir><kill-line>=<enter>'

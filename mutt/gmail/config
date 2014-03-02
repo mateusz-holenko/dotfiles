@@ -1,0 +1,25 @@
+## Receive configuration
+set imap_user    = `secret-tool lookup gmail username`
+set imap_pass    = `secret-tool lookup gmail password`
+unset folder
+set folder       = "imaps://imap.gmail.com/"
+set mbox         = "imap://imap.gmail.com/"
+set spoolfile    = "imaps://imap.gmail.com/INBOX"
+set postponed    = +Drafts
+set record       = +Sent
+set ssl_starttls = yes
+set imap_check_subscribed
+mailboxes "imaps://imap.gmail.com/INBOX"
+
+## Send configuration
+
+
+## Cache & certificates configuration
+set header_cache = ~/.mutt/gmail/headers
+set message_cachedir = ~/.mutt/gmail/bodies
+set certificate_file = ~/.mutt/gmail/certs
+
+set imap_keepalive = 300
+set mail_check = 120
+
+#account-hook *gmail.com "set imap_user=mateusz.holenko@gmail.com"
