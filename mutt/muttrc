@@ -2,15 +2,14 @@ set editor = "vim +9"
 source ~/.mutt/mutt-colors-solarized/mutt-colors-solarized-dark-256.muttrc 
 
 ## Gmail settings
-source ~/.mutt/gmail/config
-folder-hook 'gmail.com' 'source ~/.mutt/gmail/config'
+macro index <f2> '<sync-mailbox><enter-command>source ~/.mutt/gmail/config<enter><change-folder>!<enter>'
 
 ## Antmicro settings
-#source ~/.mutt/antmicro/config
-folder-hook 'citynetwork.se' 'source ~/.mutt/antmicro/config'
+macro index <f3> '<sync-mailbox><enter-command>source ~/.mutt/antmicro/config<enter><change-folder>!<enter>'
 
 ## CS settings
-folder-hook 'outlook.com' 'source ~/.mutt/cs/config'
+source ~/.mutt/cs/config
+macro index <f4> '<sync-mailbox><enter-command>source ~/.mutt/cs/config<enter><change-folder>!<enter>'
 
 
 set pager_context = 1
@@ -25,7 +24,16 @@ bind pager G bottom
 
 bind index ^S imap-fetch-mail
 
-macro index <f2> '<sync-mailbox><enter-command>source ~/.mutt/gmail/config<enter><change-folder>!<enter>'
-macro index <f3> '<sync-mailbox><enter-command>source ~/.mutt/antmicro/config<enter><change-folder>!<enter>'
-macro index <f4> '<sync-mailbox><enter-command>source ~/.mutt/cs/config<enter><change-folder>!<enter>'
 macro index ,c   '<change-folder>?<change-dir><kill-line>=<enter>'
+
+set query_command = "abook --mutt-query '%s'"
+macro generic,index,pager \cba "<shell-escape>abook<return>" "launch abook"
+macro index,pager A "<pipe-message>abook --add-email-quiet<return>" "add the sender address to abook"
+
+auto_view text/html
+alternative_order text/enriched text/plain text/html
+set tilde
+set sidebar_visible = no
+
+bind editor <Tab> complete-query
+set sort_aux = reverse-last-date-received

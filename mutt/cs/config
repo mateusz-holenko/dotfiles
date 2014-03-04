@@ -10,6 +10,8 @@ set imap_check_subscribed
 mailboxes =INBOX
 
 ## Send configuration
+set sendmail="/usr/bin/msmtp --file=$HOME/.mutt/cs/msmtprc"
+set from = $imap_user
 
 
 ## Cache & certificates configuration

@@ -1,7 +1,6 @@
 ## Receive configuration
 set imap_user    = `secret-tool lookup gmail username`
 set imap_pass    = `secret-tool lookup gmail password`
-unset folder
 set folder       = "imaps://imap.gmail.com/"
 set mbox         = "imap://imap.gmail.com/"
 set spoolfile    = "imaps://imap.gmail.com/INBOX"
@@ -22,4 +21,3 @@ set certificate_file = ~/.mutt/gmail/certs
 set imap_keepalive = 300
 set mail_check = 120
 
-#account-hook *gmail.com "set imap_user=mateusz.holenko@gmail.com"
