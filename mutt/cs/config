@@ -13,7 +13,6 @@ mailboxes =INBOX
 set sendmail="/usr/bin/msmtp --file=$HOME/.mutt/cs/msmtprc"
 set from = $imap_user
 
-
 ## Cache & certificates configuration
 set header_cache = ~/.mutt/cs/headers
 set message_cachedir = ~/.mutt/cs/bodies

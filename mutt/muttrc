@@ -1,4 +1,4 @@
-set editor = "vim +9"
+set editor = "vim +7"
 source ~/.mutt/mutt-colors-solarized/mutt-colors-solarized-dark-256.muttrc 
 
 ## Gmail settings
@@ -11,11 +11,12 @@ macro index <f3> '<sync-mailbox><enter-command>source ~/.mutt/antmicro/config<en
 source ~/.mutt/cs/config
 macro index <f4> '<sync-mailbox><enter-command>source ~/.mutt/cs/config<enter><change-folder>!<enter>'
 
-
+unset markers
 set pager_context = 1
 set pager_index_lines = 6
 set pager_stop = yes
 set edit_headers
+set wait_key = no
 
 bind pager k previous-line
 bind pager j next-line
@@ -37,3 +38,6 @@ set sidebar_visible = no
 
 bind editor <Tab> complete-query
 set sort_aux = reverse-last-date-received
+
+macro pager \cbw  ':set pipe_decode<enter><pipe-entry>w3m<enter>:unset pipe_decode<enter>' "Follow links in w3m"
+macro pager \cbb  ':set pipe_decode<enter><pipe-entry>urlview<enter>:unset pipe_decode<enter>' "Follow links in urlview"

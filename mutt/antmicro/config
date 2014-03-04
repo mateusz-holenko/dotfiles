@@ -1,13 +1,20 @@
-## Test
+### IMAP settings
 set imap_user = `secret-tool lookup antmicro username`
 set imap_pass = `secret-tool lookup antmicro password`
-unset folder
 set folder    = "imaps://mail.citynetwork.se/"
-set mbox      = "imaps://mail.citynetwork.se/"
-set spoolfile = "imaps://mail.citynetwork.se/INBOX"
+set spoolfile = +INBOX
+set record    = +INBOX/Sent
 set ssl_starttls = yes
 set imap_check_subscribed
-mailboxes "impas://mail.citynetwork.se/INBOX"
+mailboxes =INBOX
+
+### SMTP settings
+set smtp_url = "smtp://$imap_user@mail.citynetwork.se:25/"
+set smtp_pass = `secret-tool lookup antmicro password`
+set from = `secret-tool lookup antmicro username`
+set realname = "Mateusz Holenko"
+set ssl_force_tls = yes
+set use_from = yes
 
 set header_cache = ~/.mutt/antmicro/headers
 set message_cachedir = ~/.mutt/antmicro/bodies
