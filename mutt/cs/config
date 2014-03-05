@@ -10,8 +10,12 @@ set imap_check_subscribed
 mailboxes =INBOX
 
 ## Send configuration
-set sendmail="/usr/bin/msmtp --file=$HOME/.mutt/cs/msmtprc"
+set smtp_url = "smtp://$imap_user@smtp-mail.outlook.com/"
+set smtp_pass = $imap_pass
 set from = $imap_user
+set realname = "Mateusz Holenko"
+set ssl_force_tls = yes
+set use_from = yes
 
 ## Cache & certificates configuration
 set header_cache = ~/.mutt/cs/headers
