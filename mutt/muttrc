@@ -48,4 +48,8 @@ macro pager \cbb  ':set pipe_decode<enter><pipe-entry>urlview<enter>:unset pipe_
 
 set index_format = "%4C %Z %{%b %d} %-25.25L %-X %s"
 
+macro pager \cbf "v/text/html<enter>mq"
 
+set timeout=10
+set mail_check=5
+set beep_new
