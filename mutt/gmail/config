@@ -11,7 +11,12 @@ set imap_check_subscribed
 mailboxes "imaps://imap.gmail.com/INBOX"
 
 ## Send configuration
-
+set smtp_url = "smtp://$imap_user@smtp.gmail.com/"
+set smtp_pass = $imap_pass
+set from = "$imap_user@gmail.com"
+set realname = "Mateusz Hołenko"
+set ssl_force_tls = yes
+set use_from = yes
 
 ## Cache & certificates configuration
 set header_cache = ~/.mutt/gmail/headers
