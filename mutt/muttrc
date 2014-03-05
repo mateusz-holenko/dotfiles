@@ -2,14 +2,14 @@ set editor = "vim +7"
 source ~/.mutt/mutt-colors-solarized/mutt-colors-solarized-dark-256.muttrc 
 
 ## Gmail settings
-macro index <f2> '<sync-mailbox><enter-command>source ~/.mutt/gmail/config<enter><change-folder>!<enter>'
+macro index,pager <f2> '<sync-mailbox><enter-command>source ~/.mutt/gmail/config<enter><change-folder>!<enter>'
 
 ## Antmicro settings
-macro index <f3> '<sync-mailbox><enter-command>source ~/.mutt/antmicro/config<enter><change-folder>!<enter>'
+macro index,pager <f3> '<sync-mailbox><enter-command>source ~/.mutt/antmicro/config<enter><change-folder>!<enter>'
 
 ## CS settings
 source ~/.mutt/cs/config
-macro index <f4> '<sync-mailbox><enter-command>source ~/.mutt/cs/config<enter><change-folder>!<enter>'
+macro index,pager <f4> '<sync-mailbox><enter-command>source ~/.mutt/cs/config<enter><change-folder>!<enter>'
 
 unset markers
 set pager_context = 1
@@ -18,10 +18,14 @@ set pager_stop = yes
 set edit_headers
 set wait_key = no
 
+bind pager gr group-reply
+
 bind pager k previous-line
 bind pager j next-line
 bind pager gg top
 bind pager G bottom
+bind index gg first-entry
+bind index G last-entry
 
 bind index ^S imap-fetch-mail
 
@@ -41,3 +45,7 @@ set sort_aux = reverse-last-date-received
 
 macro pager \cbw  ':set pipe_decode<enter><pipe-entry>w3m<enter>:unset pipe_decode<enter>' "Follow links in w3m"
 macro pager \cbb  ':set pipe_decode<enter><pipe-entry>urlview<enter>:unset pipe_decode<enter>' "Follow links in urlview"
+
+set index_format = "%4C %Z %{%b %d} %-25.25L %-X %s"
+
+
