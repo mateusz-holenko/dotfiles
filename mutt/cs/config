@@ -4,7 +4,7 @@ set imap_pass    = `secret-tool lookup cs password`
 set folder       = "imaps://imap-mail.outlook.com/"
 set spoolfile    = +INBOX
 set postponed    = +Drafts
-set record       = +Sent
+unset record
 set ssl_starttls = yes
 set imap_check_subscribed
 mailboxes =INBOX
@@ -22,6 +22,6 @@ set header_cache = ~/.mutt/cs/headers
 set message_cachedir = ~/.mutt/cs/bodies
 set certificate_file = ~/.mutt/cs/certs
 
-set imap_keepalive = 300
-set mail_check = 120
+set imap_keepalive = 120
+set mail_check = 60
 

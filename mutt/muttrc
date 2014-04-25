@@ -41,7 +41,9 @@ set tilde
 set sidebar_visible = no
 
 bind editor <Tab> complete-query
-set sort_aux = reverse-last-date-received
+
+set sort = reverse-threads
+set sort_aux = last-date-received
 
 macro pager \cbw  ':set pipe_decode<enter><pipe-entry>w3m<enter>:unset pipe_decode<enter>' "Follow links in w3m"
 macro pager \cbb  ':set pipe_decode<enter><pipe-entry>urlview<enter>:unset pipe_decode<enter>' "Follow links in urlview"

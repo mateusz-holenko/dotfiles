@@ -5,7 +5,7 @@ set folder       = "imaps://imap.gmail.com/"
 set mbox         = "imap://imap.gmail.com/"
 set spoolfile    = "imaps://imap.gmail.com/INBOX"
 set postponed    = +Drafts
-set record       = +Sent
+unset record
 set ssl_starttls = yes
 set imap_check_subscribed
 mailboxes "imaps://imap.gmail.com/INBOX"
@@ -23,6 +23,7 @@ set header_cache = ~/.mutt/gmail/headers
 set message_cachedir = ~/.mutt/gmail/bodies
 set certificate_file = ~/.mutt/gmail/certs
 
-set imap_keepalive = 300
-set mail_check = 120
+
+set imap_keepalive = 120
+set mail_check = 60
 
