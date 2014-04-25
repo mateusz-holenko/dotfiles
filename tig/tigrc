@@ -1,3 +1,9 @@
 bind status P !git push origin %(promptBranch:)
 bind status + !git commit --amend
 bind status i !@bash -c "echo '%(file)' >> `git rev-parse --show-toplevel`/.gitignore"
+
+bind stage J next 
+bind stage K previous 
+bind generic g none
+bind generic g move-first-line
+bind generic G move-last-line
