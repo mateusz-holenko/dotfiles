@@ -59,17 +59,17 @@ modkey = "Mod4"
 local layouts =
 {
     awful.layout.suit.tile.left,
-    awful.layout.suit.tile.bottom,
-    awful.layout.suit.tile.top,
     awful.layout.suit.fair,
+    awful.layout.suit.tile.bottom,
     awful.layout.suit.fair.horizontal,
-    awful.layout.suit.spiral,
-    awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max,
-    awful.layout.suit.max.fullscreen,
-    awful.layout.suit.magnifier,
-    awful.layout.suit.floating,
-    awful.layout.suit.tile,
+--    awful.layout.suit.tile.top,
+--    awful.layout.suit.spiral,
+--    awful.layout.suit.spiral.dwindle,
+--    awful.layout.suit.max,
+--    awful.layout.suit.max.fullscreen,
+--    awful.layout.suit.magnifier,
+--    awful.layout.suit.floating,
+--    awful.layout.suit.tile,
 }
 -- }}}
 
@@ -84,9 +84,9 @@ end
 -- {{{ Tags
 tags = {}
     -- Each screen has its own tag table.
-    tags[1] = awful.tag({ "sys", "dev", "web", "vim", "misc" }, 1, { layouts[10], layouts[12], layouts[4], layouts[4], layouts[4]  })
+    tags[1] = awful.tag({ "sys", "dev", "comm", "vim", "misc" }, 1, { layouts[3], layouts[1], layouts[3], layouts[3], layouts[3]  })
     if screen.count() > 1 then
-      tags[2] = awful.tag({ "term", "dev", "web", "doc", "misc" }, 2, { layouts[10], layouts[6], layouts[4], layouts[4], layouts[4] })
+      tags[2] = awful.tag({ "term", "dev", "web", "doc", "misc" }, 2, { layouts[3], layouts[2], layouts[3], layouts[3], layouts[3] })
     end
 -- }}}
 
@@ -251,8 +251,8 @@ globalkeys = awful.util.table.join(
         end),
 
     -- Standard program
-    awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
-    awful.key({ modkey, "Shift"   }, "Return", function () awful.util.spawn(terminal .. " --title=\"Terminal \"") end),
+    awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal .. " -e 'tmux -2'") end),
+    awful.key({ modkey, "Shift"   }, "Return", function () awful.util.spawn(terminal .. " --title='Terminal ' -e 'tmux -2'") end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Control" }, "q", awesome.quit),
 
@@ -353,7 +353,7 @@ globalkeys = awful.util.table.join(
     end),
 
     awful.key({ modkey }, "F11", function() scratch.drop(terminal .. " -e vifm", "top", "center", 0.85, 0.5) end),
-    awful.key({ modkey }, "F12", function() scratch.drop(terminal .. " --title=\"Terminal \"", "top", "center", 0.85, 0.5) end),
+    awful.key({ modkey }, "F12", function() scratch.drop(terminal .. " --title=\"Terminal \" -e \"tmux -2\"", "top", "center", 0.85, 0.5) end),
     awful.key({ modkey }, "F5" , function() 
       enable_rules() 
       naughty.notify({ 
@@ -476,7 +476,7 @@ function enable_rules()
         properties = { tag = tags[screen.count()][3], switchtotag = true } },
       { rule = { class = "Download", "Iceweasel" },
         properties = { floating = true } },
-      { rule = { class = "Gnome-terminal" },
+      { rule = { class = "roxterm" },
         -- properties = { tag = tags[1][1], switchtotag = true } },
         callback = function (c)
           if os.execute("~/Skrypty/pidCheck.sh " .. c.pid .. " `pidof monodevelop`") == 0 then
