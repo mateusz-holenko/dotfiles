@@ -41,8 +41,6 @@ map <S-l> gt
 " windows and buffers navigation
 map <C-h> :bprev<CR> 
 map <C-l> :bnext<CR>
-map <C-k> :winc W<CR>
-map <C-j> :winc w<CR>
 
 " no more arrows ;)
 inoremap  <Up>     <NOP>
@@ -206,6 +204,11 @@ nnoremap <F5> :wa!<cr>:OmniSharpBuild<cr>
 "nnoremap <F5> :wa!<cr>:OmniSharpBuildAsync<cr>
 
 "The following commands are contextual, based on the current cursor position.
+
+let g:C_Ctrl_j = 'off'
+
+nmap <C-k> <C-b> ; scroll page up
+nmap <C-j> <C-f> ; scroll page down
 
 nnoremap <F12> :OmniSharpGotoDefinition<cr>
 nnoremap gd :OmniSharpGotoDefinition<cr>
