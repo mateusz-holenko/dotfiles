@@ -56,8 +56,8 @@ noremap   <Right>  <NOP>
 imap jj <Esc>
 
 " edit/reload .vimrc
-nmap <silent> <leader>ev :e /home/houen/.vimrc<RETURN>
-nmap <silent> <leader>rv :so /home/houen/.vimrc<RETURN>
+nmap <silent> <leader>ev :e /home/houen/.vim/vimrc<RETURN>
+nmap <silent> <leader>rv :so /home/houen/.vim/vimrc<RETURN>
 
 nmap <silent> <leader>ea :e /home/houen/.config/awesome/rc.lua<RETURN>
 """""""""""
